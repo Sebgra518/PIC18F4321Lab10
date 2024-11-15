@@ -1,7 +1,9 @@
+//Modified Library from: Electronic Wings
+
 #ifndef DHT_H
     #define	DHT_H
 
-#define _XTAL_FREQ 8000000  //Frequency of the sytem clock
+    #define _XTAL_FREQ 8000000  //Frequency of the sytem clock
 
 
     #include <xc.h>

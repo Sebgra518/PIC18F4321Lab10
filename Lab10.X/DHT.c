@@ -1,6 +1,6 @@
-
 #include "DHT.h"
 
+//Modified Library from: Electronic Wings
 
 void DHT11_Start()
 {    
@@ -10,7 +10,6 @@ void DHT11_Start()
     Data_Out = 1;       /* pull data bus high */
     __delay_us(20);
     Data_Dir = 1;       /* set as input port */    
-//    LED = 14;
 }
 
 char DHT11_ReadData()

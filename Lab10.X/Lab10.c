@@ -5,43 +5,38 @@
 
 void main(void) {
     
-    char RH_Decimal, RH_Integral, T_Decimal, T_Integral;
-    char value[10];
-
+    char H_num, H_decimal, T_num, T_decimal;
     
     OSCCON = 0x72;
     ADCON1=0x0F;
     
     LCD_init();
     while (1) {
-        DHT11_Start(); /* send start pulse to DHT11 module */
-        DHT11_CheckResponse(); /* wait for response from DHT11 module */
+        DHT11_Start(); //send start pulse
+        DHT11_CheckResponse(); //wait for response
         
-        /* read 40-bit data from DHT11 module */
-        RH_Integral = DHT11_ReadData();
-        RH_Decimal = DHT11_ReadData();
-        T_Integral = DHT11_ReadData(); 
-        T_Decimal = DHT11_ReadData(); 
+        //read 40-bit data from DHT11 module
+        H_num = DHT11_ReadData();
+        H_decimal = DHT11_ReadData();
+        T_num = DHT11_ReadData(); 
+        T_decimal = DHT11_ReadData(); 
 
-        /* convert humidity value to ascii and send it to display*/
+        //Write Humidity
         LCD_cursor_set(1,1);
         LCD_write_string("Humidity: ");
-        sprintf(value, "%d", RH_Integral);
-        LCD_write_string(value);
-        sprintf(value, ".%d ", RH_Decimal);
-        LCD_write_string(value);
+        LCD_write_variable(H_num,0);
+        LCD_write_string(".");
+        LCD_write_variable(H_decimal,0);
         LCD_write_char('%');
 
-        /* convert temperature value to ascii and send it to display*/
+        //Write Temperature
         LCD_cursor_set(2,1);
         LCD_write_string("Temp: ");
-        sprintf(value, "%d", T_Integral);
-        LCD_write_string(value);
-        sprintf(value, ".%d", T_Decimal);
-        LCD_write_string(value);
-        LCD_write_char(0xdf);
+        LCD_write_variable(T_num,0);
+        LCD_write_string(".");
+        LCD_write_variable(T_decimal,0);
+        LCD_write_char(0xdf);//Hex for degree symbol
         LCD_write_char('C');
-        
         
         __delay_ms(500);
     }

@@ -24,10 +24,10 @@ Version 4.0 HI-TECH Software Intermediate Code
 "94
 [; ;./LCD.h: 94:     void LCD_write_string(char*);
 [v _LCD_write_string `(v ~T0 @X0 0 ef1`*uc ]
-"121 E:\Microchip\xc8\v2.50\pic\include\c99\stdio.h
-[; ;E:\Microchip\xc8\v2.50\pic\include\c99\stdio.h: 121: int sprintf(char *restrict, const char *restrict, ...);
-[v _sprintf `(i ~T0 @X0 0 e1v`*uc`*Cuc ]
-"95 ./LCD.h
+"96
+[; ;./LCD.h: 96:     void LCD_write_variable(int32_t, uint8_t);
+[v _LCD_write_variable `(v ~T0 @X0 0 ef2`l`uc ]
+"95
 [; ;./LCD.h: 95:     void LCD_write_char(char);
 [v _LCD_write_char `(v ~T0 @X0 0 ef1`uc ]
 [v F205 `(v ~T0 @X0 1 tf1`ul ]
@@ -512,110 +512,98 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e :U _main ]
 [f ]
 "8
-[; ;Lab10.c: 8:     char RH_Decimal, RH_Integral, T_Decimal, T_Integral;
-[v _RH_Decimal `uc ~T0 @X0 1 a ]
-[v _RH_Integral `uc ~T0 @X0 1 a ]
-[v _T_Decimal `uc ~T0 @X0 1 a ]
-[v _T_Integral `uc ~T0 @X0 1 a ]
-"9
-[; ;Lab10.c: 9:     char value[10];
-[v _value `uc ~T0 @X0 -> 10 `i a ]
-"12
-[; ;Lab10.c: 12:     OSCCON = 0x72;
+[; ;Lab10.c: 8:     char H_num, H_decimal, T_num, T_decimal;
+[v _H_num `uc ~T0 @X0 1 a ]
+[v _H_decimal `uc ~T0 @X0 1 a ]
+[v _T_num `uc ~T0 @X0 1 a ]
+[v _T_decimal `uc ~T0 @X0 1 a ]
+"10
+[; ;Lab10.c: 10:     OSCCON = 0x72;
 [e = _OSCCON -> -> 114 `i `uc ]
-"13
-[; ;Lab10.c: 13:     ADCON1=0x0F;
+"11
+[; ;Lab10.c: 11:     ADCON1=0x0F;
 [e = _ADCON1 -> -> 15 `i `uc ]
-"15
-[; ;Lab10.c: 15:     LCD_init();
+"13
+[; ;Lab10.c: 13:     LCD_init();
 [e ( _LCD_init ..  ]
-"16
-[; ;Lab10.c: 16:     while (1) {
+"14
+[; ;Lab10.c: 14:     while (1) {
 [e :U 284 ]
 {
-"17
-[; ;Lab10.c: 17:         DHT11_Start();
+"15
+[; ;Lab10.c: 15:         DHT11_Start();
 [e ( _DHT11_Start ..  ]
-"18
-[; ;Lab10.c: 18:         DHT11_CheckResponse();
+"16
+[; ;Lab10.c: 16:         DHT11_CheckResponse();
 [e ( _DHT11_CheckResponse ..  ]
+"19
+[; ;Lab10.c: 19:         H_num = DHT11_ReadData();
+[e = _H_num ( _DHT11_ReadData ..  ]
+"20
+[; ;Lab10.c: 20:         H_decimal = DHT11_ReadData();
+[e = _H_decimal ( _DHT11_ReadData ..  ]
 "21
-[; ;Lab10.c: 21:         RH_Integral = DHT11_ReadData();
-[e = _RH_Integral ( _DHT11_ReadData ..  ]
+[; ;Lab10.c: 21:         T_num = DHT11_ReadData();
+[e = _T_num ( _DHT11_ReadData ..  ]
 "22
-[; ;Lab10.c: 22:         RH_Decimal = DHT11_ReadData();
-[e = _RH_Decimal ( _DHT11_ReadData ..  ]
-"23
-[; ;Lab10.c: 23:         T_Integral = DHT11_ReadData();
-[e = _T_Integral ( _DHT11_ReadData ..  ]
-"24
-[; ;Lab10.c: 24:         T_Decimal = DHT11_ReadData();
-[e = _T_Decimal ( _DHT11_ReadData ..  ]
-"27
-[; ;Lab10.c: 27:         LCD_cursor_set(1,1);
+[; ;Lab10.c: 22:         T_decimal = DHT11_ReadData();
+[e = _T_decimal ( _DHT11_ReadData ..  ]
+"25
+[; ;Lab10.c: 25:         LCD_cursor_set(1,1);
 [e ( _LCD_cursor_set (2 , -> -> 1 `i `uc -> -> 1 `i `uc ]
-"28
-[; ;Lab10.c: 28:         LCD_write_string("Humidity: ");
+"26
+[; ;Lab10.c: 26:         LCD_write_string("Humidity: ");
 [e ( _LCD_write_string (1 :s 1C ]
+"27
+[; ;Lab10.c: 27:         LCD_write_variable(H_num,0);
+[e ( _LCD_write_variable (2 , -> _H_num `l -> -> 0 `i `uc ]
+"28
+[; ;Lab10.c: 28:         LCD_write_string(".");
+[e ( _LCD_write_string (1 :s 2C ]
 "29
-[; ;Lab10.c: 29:         sprintf(value, "%d", RH_Integral);
-[e ( _sprintf (1 , (. , &U _value :s 2C -> _RH_Integral `i ]
+[; ;Lab10.c: 29:         LCD_write_variable(H_decimal,0);
+[e ( _LCD_write_variable (2 , -> _H_decimal `l -> -> 0 `i `uc ]
 "30
-[; ;Lab10.c: 30:         LCD_write_string(value);
-[e ( _LCD_write_string (1 &U _value ]
-"31
-[; ;Lab10.c: 31:         sprintf(value, ".%d ", RH_Decimal);
-[e ( _sprintf (1 , (. , &U _value :s 3C -> _RH_Decimal `i ]
-"32
-[; ;Lab10.c: 32:         LCD_write_string(value);
-[e ( _LCD_write_string (1 &U _value ]
-"33
-[; ;Lab10.c: 33:         LCD_write_char('%');
+[; ;Lab10.c: 30:         LCD_write_char('%');
 [e ( _LCD_write_char (1 -> -> 37 `ui `uc ]
-"36
-[; ;Lab10.c: 36:         LCD_cursor_set(2,1);
+"33
+[; ;Lab10.c: 33:         LCD_cursor_set(2,1);
 [e ( _LCD_cursor_set (2 , -> -> 2 `i `uc -> -> 1 `i `uc ]
-"37
-[; ;Lab10.c: 37:         LCD_write_string("Temp: ");
+"34
+[; ;Lab10.c: 34:         LCD_write_string("Temp: ");
+[e ( _LCD_write_string (1 :s 3C ]
+"35
+[; ;Lab10.c: 35:         LCD_write_variable(T_num,0);
+[e ( _LCD_write_variable (2 , -> _T_num `l -> -> 0 `i `uc ]
+"36
+[; ;Lab10.c: 36:         LCD_write_string(".");
 [e ( _LCD_write_string (1 :s 4C ]
+"37
+[; ;Lab10.c: 37:         LCD_write_variable(T_decimal,0);
+[e ( _LCD_write_variable (2 , -> _T_decimal `l -> -> 0 `i `uc ]
 "38
-[; ;Lab10.c: 38:         sprintf(value, "%d", T_Integral);
-[e ( _sprintf (1 , (. , &U _value :s 5C -> _T_Integral `i ]
-"39
-[; ;Lab10.c: 39:         LCD_write_string(value);
-[e ( _LCD_write_string (1 &U _value ]
-"40
-[; ;Lab10.c: 40:         sprintf(value, ".%d", T_Decimal);
-[e ( _sprintf (1 , (. , &U _value :s 6C -> _T_Decimal `i ]
-"41
-[; ;Lab10.c: 41:         LCD_write_string(value);
-[e ( _LCD_write_string (1 &U _value ]
-"42
-[; ;Lab10.c: 42:         LCD_write_char(0xdf);
+[; ;Lab10.c: 38:         LCD_write_char(0xdf);
 [e ( _LCD_write_char (1 -> -> 223 `i `uc ]
-"43
-[; ;Lab10.c: 43:         LCD_write_char('C');
+"39
+[; ;Lab10.c: 39:         LCD_write_char('C');
 [e ( _LCD_write_char (1 -> -> 67 `ui `uc ]
-"46
-[; ;Lab10.c: 46:         _delay((unsigned long)((500)*(8000000/4000.0)));
+"42
+[; ;Lab10.c: 42:         _delay((unsigned long)((500)*(8000000/4000.0)));
 [e ( __delay (1 -> * -> -> 500 `i `d / -> -> 8000000 `l `d .4000.0 `ul ]
-"47
-[; ;Lab10.c: 47:     }
+"43
+[; ;Lab10.c: 43:     }
 }
 [e :U 283 ]
 [e $U 284  ]
 [e :U 285 ]
-"48
-[; ;Lab10.c: 48:     return;
+"44
+[; ;Lab10.c: 44:     return;
 [e $UE 282  ]
-"50
-[; ;Lab10.c: 50: }
+"46
+[; ;Lab10.c: 46: }
 [e :UE 282 ]
 }
-[p f _sprintf 8388736 ]
-[a 6C 46 37 100 0 ]
-[a 2C 37 100 0 ]
-[a 5C 37 100 0 ]
-[a 3C 46 37 100 32 0 ]
+[a 2C 46 0 ]
+[a 4C 46 0 ]
 [a 1C 72 117 109 105 100 105 116 121 58 32 0 ]
-[a 4C 84 101 109 112 58 32 0 ]
+[a 3C 84 101 109 112 58 32 0 ]

@@ -4879,9 +4879,7 @@ char *tempnam(const char *, const char *);
 
 void main(void) {
 
-    char RH_Decimal, RH_Integral, T_Decimal, T_Integral;
-    char value[10];
-
+    char H_num, H_decimal, T_num, T_decimal;
 
     OSCCON = 0x72;
     ADCON1=0x0F;
@@ -4892,27 +4890,25 @@ void main(void) {
         DHT11_CheckResponse();
 
 
-        RH_Integral = DHT11_ReadData();
-        RH_Decimal = DHT11_ReadData();
-        T_Integral = DHT11_ReadData();
-        T_Decimal = DHT11_ReadData();
+        H_num = DHT11_ReadData();
+        H_decimal = DHT11_ReadData();
+        T_num = DHT11_ReadData();
+        T_decimal = DHT11_ReadData();
 
 
         LCD_cursor_set(1,1);
         LCD_write_string("Humidity: ");
-        sprintf(value, "%d", RH_Integral);
-        LCD_write_string(value);
-        sprintf(value, ".%d ", RH_Decimal);
-        LCD_write_string(value);
+        LCD_write_variable(H_num,0);
+        LCD_write_string(".");
+        LCD_write_variable(H_decimal,0);
         LCD_write_char('%');
 
 
         LCD_cursor_set(2,1);
         LCD_write_string("Temp: ");
-        sprintf(value, "%d", T_Integral);
-        LCD_write_string(value);
-        sprintf(value, ".%d", T_Decimal);
-        LCD_write_string(value);
+        LCD_write_variable(T_num,0);
+        LCD_write_string(".");
+        LCD_write_variable(T_decimal,0);
         LCD_write_char(0xdf);
         LCD_write_char('C');
 
